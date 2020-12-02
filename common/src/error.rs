@@ -7,7 +7,7 @@ pub enum Error {
     IoError(#[from] std::io::Error),
 
     #[error("None returned")]
-    None
+    None,
 }
 
 pub type Result<T> = std::result::Result<T, Error>;

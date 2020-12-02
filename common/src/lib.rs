@@ -1,9 +1,9 @@
-pub use std::convert::TryFrom;
-pub use itertools::Itertools;
 pub use itertools;
-pub use nom::IResult;
+pub use itertools::Itertools;
 pub use nom;
 pub use nom::Finish;
+pub use nom::IResult;
+pub use std::convert::TryFrom;
 
 mod error;
 pub use error::*;
@@ -11,4 +11,5 @@ pub use error::*;
 mod args;
 pub use args::*;
 
-pub mod parsers;
+mod parsers;
+pub use parsers::*;

@@ -2,5 +2,5 @@
 members = [
     "y2015d01",
     "y2020d01",
-    "common"
+    "common",
 ]
