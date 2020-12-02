@@ -1,4 +1,4 @@
-use day01::*;
+use y2020d01::*;
 
 fn main() -> Result<()> {
     let input = Args::from_args().input()?;
