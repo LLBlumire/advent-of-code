@@ -2,7 +2,9 @@ use crate::*;
 
 use std::str::FromStr;
 #[derive(Debug)]
-pub struct ParsedInput { records: Vec<i32> }
+pub struct ParsedInput {
+    records: Vec<i32>,
+}
 
 pub fn parse(input: &str) -> IResult<&str, ParsedInput> {
     let number = map_res(digit1, FromStr::from_str);
