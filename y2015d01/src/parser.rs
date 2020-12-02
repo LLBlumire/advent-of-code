@@ -1,5 +1,5 @@
 use crate::*;
-use nom::{character::complete::*, multi::*, branch::*};
+use nom::{character::complete::*, multi::*, branch::*, combinator::*};
 
 pub struct ParsedInput {
     pub elevator_signals: Vec<i32>
@@ -20,10 +20,10 @@ pub fn parse_internal(input: &str) -> IResult<&str, ParsedInput> {
 }
 
 fn elevator_up(input: &str) -> IResult<&str, i32> {
-    char('(')(input).map(|(i, _)| (i, 1))
+    map(char('('), |_| 1)(input)
 }
 fn elevator_down(input: &str) -> IResult<&str, i32> {
-    char(')')(input).map(|(i, _)| (i, -1))
+    map(char(')'), |_| -1)(input)
 }
 fn elevator_signal(input: &str) -> IResult<&str, i32> {
     alt((elevator_up, elevator_down))(input)
