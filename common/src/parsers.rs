@@ -1,1 +1,5 @@
-pub use nom::{branch::*, character::complete::*, combinator::*, multi::*, *};
+pub use nom::{branch::*,
+              character::complete::*,
+              combinator::*,
+              multi::*,
+              *};

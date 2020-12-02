@@ -1,8 +1,8 @@
-pub use itertools;
-pub use itertools::Itertools;
-pub use nom;
-pub use nom::Finish;
-pub use nom::IResult;
+pub use itertools::{self,
+                    Itertools};
+pub use nom::{self,
+              Finish,
+              IResult};
 pub use std::convert::TryFrom;
 
 mod error;

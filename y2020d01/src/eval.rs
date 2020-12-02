@@ -1,6 +1,6 @@
 use crate::*;
-
 use std::str::FromStr;
+
 #[derive(Debug)]
 pub struct ParsedInput {
     records: Vec<i32>,
