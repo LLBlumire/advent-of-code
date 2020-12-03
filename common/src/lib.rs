@@ -5,6 +5,8 @@ pub use nom::{self,
               IResult};
 pub use std::convert::TryFrom;
 
+pub use ndarray as arr;
+
 mod error;
 pub use error::*;
 
