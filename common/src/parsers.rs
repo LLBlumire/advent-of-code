@@ -3,5 +3,6 @@ pub use nom::{branch::*,
               character::complete::*,
               combinator::*,
               multi::*,
+              number::complete::*,
               sequence::*,
               *};
