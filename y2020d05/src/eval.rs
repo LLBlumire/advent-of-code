@@ -50,7 +50,7 @@ pub struct BoardingPass {
     v_scheme: Vec<PartitionV>,
     h_scheme: Vec<PartitionH>,
 }
-impl BoardingPass { 
+impl BoardingPass {
     /// Panics if partition scheme is incomplete
     fn get_seat_id(&self) -> usize {
         let mut v_partition = 0..128;
@@ -62,8 +62,8 @@ impl BoardingPass {
             h_partition.do_partition(h.is_low());
         }
         match (v_partition.finish(), h_partition.finish()) {
-            (Some(y), Some(x)) => y*8 + x,
-            _ => panic!("Invalid boarding pass")
+            (Some(y), Some(x)) => y * 8 + x,
+            _ => panic!("Invalid boarding pass"),
         }
     }
 }
@@ -87,7 +87,7 @@ impl ParsedInput {
             if all_seat_ids.contains(&test_value) {
                 continue;
             }
-            return test_value
+            return test_value;
         }
         panic!()
     }
@@ -109,8 +109,5 @@ pub fn parse(input: &str) -> IResult<&str, ParsedInput> {
 pub type Task1 = usize;
 pub type Task2 = usize;
 pub fn compute(input: ParsedInput) -> Result<Output> {
-    Ok(Output { 
-        task1: input.highest_seat_id(),
-        task2: input.missing_seat_id_not_front_or_back()
-    })
+    Ok(Output { task1: input.highest_seat_id(), task2: input.missing_seat_id_not_front_or_back() })
 }
