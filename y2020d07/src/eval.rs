@@ -52,9 +52,12 @@ impl Policy {
     }
 
     fn count_bags_contained(&self, countainer_bag: &Bag) -> usize {
-        self.rules.get(countainer_bag).iter().flat_map(|n| n.iter()).map(|(numof, bag)| {
-            (self.count_bags_contained(bag)+1) * numof
-        }).sum()
+        self.rules
+            .get(countainer_bag)
+            .iter()
+            .flat_map(|n| n.iter())
+            .map(|(numof, bag)| (self.count_bags_contained(bag) + 1) * numof)
+            .sum()
     }
 }
 
@@ -63,12 +66,7 @@ pub type Task2 = usize;
 pub fn compute(input: ParsedInput) -> Result<Output> {
     let test_bag = Bag { property: "shiny".to_string(), color: "gold".to_string() };
     Ok(Output {
-        task1: input
-            .policy
-            .bags_containing(&test_bag)
-            .len(),
-        task2: input
-            .policy
-            .count_bags_contained(&test_bag),
+        task1: input.policy.bags_containing(&test_bag).len(),
+        task2: input.policy.count_bags_contained(&test_bag),
     })
 }
