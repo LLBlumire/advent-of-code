@@ -43,7 +43,7 @@ pub fn parse(input: &str) -> IResult<&str, ParsedInput> {
 impl Policy {
     fn bags_containing(&self, contained_bag: &Bag) -> HashSet<&Bag> {
         self.rules.iter().fold(HashSet::new(), |mut bags, (bag, contained_bags)| {
-            if contained_bags.iter().find(|(_, search)| search == contained_bag).is_some() {
+            if contained_bags.iter().any(|(_, search)| search == contained_bag) {
                 bags.insert(bag);
                 bags.extend(self.bags_containing(bag).iter());
             }

@@ -16,7 +16,7 @@ impl PresentBox {
     fn wrapping_area(&self) -> i32 {
         let PresentBox { dim1, dim2, dim3 } = *self;
         let mut areas = [dim1 * dim2, dim2 * dim3, dim1 * dim3];
-        areas.sort();
+        areas.sort_unstable();
         let surface_area = areas.iter().sum::<i32>() * 2;
         let smallest_area = areas[0];
         surface_area + smallest_area
@@ -24,7 +24,7 @@ impl PresentBox {
     fn ribon_length(&self) -> i32 {
         let PresentBox { dim1, dim2, dim3 } = *self;
         let mut dims = [dim1, dim2, dim3];
-        dims.sort();
+        dims.sort_unstable();
         let smallest_perimeter = 2 * (dims[0] + dims[1]);
         let volume = dims.iter().product::<i32>();
         smallest_perimeter + volume

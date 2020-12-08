@@ -77,7 +77,7 @@ fn generate_fix_candidates(instructions: &[Instruction]) -> Vec<Vec<Instruction>
         let new_op = match instruction.operation {
             Operation::Jump => Operation::NoOperation,
             Operation::NoOperation => Operation::Jump,
-            other => continue,
+            _ => continue,
         };
         let mut candidate: Vec<Instruction> = Vec::from(instructions);
         candidate[i] = Instruction { operation: new_op, argument: instruction.argument };

@@ -82,7 +82,7 @@ impl ParsedInput {
     /// Panics if no seat IDs are missing
     fn missing_seat_id_not_front_or_back(&self) -> usize {
         let mut all_seat_ids = self.passes.iter().map(BoardingPass::get_seat_id).collect::<Vec<_>>();
-        all_seat_ids.sort();
+        all_seat_ids.sort_unstable();
         for test_value in self.lowest_seat_id()..self.highest_seat_id() {
             if all_seat_ids.contains(&test_value) {
                 continue;

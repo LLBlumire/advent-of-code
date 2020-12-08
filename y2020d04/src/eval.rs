@@ -130,8 +130,8 @@ impl ValidPassportConfig {
         let inch = map(tuple((parse_number, tag("in"))), |(n, _)| Height::In(n));
         let mut parse_height = alt((cm, inch));
         match parse_height(height).finish() {
-            Ok((_, Height::Cm(cm))) if cm >= 150 && cm <= 193 => self.height = Some(Height::Cm(cm)),
-            Ok((_, Height::In(inch))) if inch >= 59 && inch <= 76 => self.height = Some(Height::In(inch)),
+            Ok((_, Height::Cm(cm))) if (150..=193).contains(&cm) => self.height = Some(Height::Cm(cm)),
+            Ok((_, Height::In(inch))) if (59..=76).contains(&inch) => self.height = Some(Height::In(inch)),
             _ => self.validation_failure = true,
         }
     }
@@ -196,9 +196,7 @@ pub struct Passport {
 }
 impl Passport {
     fn has_required_fields(&self) -> bool {
-        FieldKind::required()
-            .iter()
-            .all(|required| self.fields.iter().map(|n| n.kind).find(|n| n == required).is_some())
+        FieldKind::required().iter().all(|required| self.fields.iter().map(|n| n.kind).any(|n| n == *required))
     }
     fn validate(self) -> Option<ValidPassport> {
         let mut config = ValidPassportConfig::default();
@@ -233,7 +231,7 @@ pub fn parse(input: &str) -> IResult<&str, ParsedInput> {
     let cid = map(tag("cid"), |_| FieldKind::CountryId);
     let field_kind = alt((byr, iyr, eyr, hgt, hcl, ecl, pid, cid));
     let sep = alt((tag(" "), line_ending));
-    let field = map(separated_pair(field_kind, char(':'), take_till(|n| char::is_whitespace(n))), |(kind, payload)| {
+    let field = map(separated_pair(field_kind, char(':'), take_till(char::is_whitespace)), |(kind, payload)| {
         PassportField { kind, payload: str::to_string(payload) }
     });
 

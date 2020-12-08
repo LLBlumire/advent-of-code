@@ -1,5 +1,5 @@
 use crate::*;
-use std::iter::FromIterator;
+
 #[derive(Debug)]
 pub struct ParsedInput {
     map: arr::Array2<bool>,
@@ -16,7 +16,8 @@ pub fn parse(input: &str) -> IResult<&str, ParsedInput> {
         let dim2 = v[0].len();
         (v, dim2, dim1)
     });
-    let world_arr = map_res(world_dim, |(v, x, y)| arr::Array::from_iter(v.into_iter().flatten()).into_shape((y, x)));
+    let world_arr =
+        map_res(world_dim, |(v, x, y)| v.into_iter().flatten().collect::<arr::Array1<_>>().into_shape((y, x)));
     let mut parsed = map(world_arr, |map| ParsedInput { map });
     Ok(parsed(input)?)
 }
