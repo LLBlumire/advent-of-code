@@ -23,44 +23,34 @@ pub fn parse(input: &str) -> IResult<&str, ParsedInput> {
     Ok(parsed(input)?)
 }
 
+
 impl Record {
     fn len(&self) -> usize {
         self.source.len() + 2 // 2 for the quotes
     }
-    fn len_mapped(&self) -> usize {
-        let mut counter = 0;
-        let mut position = 0;
-        loop {
-            let source = self.source[position..].as_bytes();
-            if source.is_empty() {
-                break counter;
-            }
-            if let b'\\' = source[0] {
-                match source[1] {
-                    b'\\' | b'\"' => position += 1,
-                    b'x' => position += 3,
-                    _ => panic!(),
+    fn len_unescpaed(&self) -> usize {
+        fn unescaped_len(bstr: &[u8]) -> usize {
+            if bstr.is_empty() {
+                0
+            } else {
+                if bstr[0] == b'\\' {
+                    match bstr[1] {
+                        b'\\' | b'\"' => 1 + unescaped_len(&bstr[2..]),
+                        b'x' => 1 + unescaped_len(&bstr[4..]),
+                        _ => panic!()
+                    }
+                } else {
+                    1 + unescaped_len(&bstr[1..])
                 }
             }
-            counter += 1;
-            position += 1;
         }
+        unescaped_len(self.source.as_bytes())
     }
-    fn len_unmapped(&self) -> usize {
-        // Starts at 4 because "\"\"" around string"
-        let mut counter = 6;
-        let mut position = 0;
-        loop {
-            let source = self.source[position..].as_bytes();
-            if source.is_empty() {
-                break counter;
-            }
-            if source[0] == b'\\' || source[0] == b'\"' {
-                counter += 1
-            }
-            counter += 1;
-            position += 1;
-        }
+    fn len_escaped(&self) -> usize {
+        self.source.chars().map(|c| match c {
+            '\\' | '\"' => 2,
+            _ => 1,
+        }).sum::<usize>() + 6 // 6 for the "\"\""
     }
 }
 
@@ -69,8 +59,8 @@ pub type Task2 = usize;
 pub fn compute(input: ParsedInput) -> Result<Output> {
     Ok(Output {
         task1: input.records.iter().map(Record::len).sum::<usize>()
-            - input.records.iter().map(Record::len_mapped).sum::<usize>(),
-        task2: input.records.iter().map(Record::len_unmapped).sum::<usize>()
+            - input.records.iter().map(Record::len_unescpaed).sum::<usize>(),
+        task2: input.records.iter().map(Record::len_escaped).sum::<usize>()
             - input.records.iter().map(Record::len).sum::<usize>(),
     })
 }

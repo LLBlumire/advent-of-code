@@ -52,12 +52,11 @@ impl SeatSimulator {
             let shape = self.state.shape();
             (shape[0], shape[1])
         };
-        let data_source: Vec<((usize, usize), &mut State)> = self.state.indexed_iter_mut().collect();
-        data_source.into_iter().for_each(|((x, y), n)| {
+        for ((x, y), n) in self.state.indexed_iter_mut() {
             let (xs, ys) = SeatSimulator::get_adjacency_shape(xmax, ymax, x, y);
             let view = last.slice(arr::s![xs, ys]);
             SeatSimulator::update_state(n, view);
-        });
+        };
     }
     fn simulate(initial_state: arr::Array2<State>) -> SeatSimulator {
         let mut state = SeatSimulator { state: initial_state };
