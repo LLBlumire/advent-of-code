@@ -1,5 +1,5 @@
 [package]
-name = "common"
+name = "y2020d11"
 version = "0.1.0"
 authors = ["LLBlumire"]
 edition = "2018"
@@ -7,9 +7,4 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-thiserror = "1.0.22"
-nom = "6.0.1"
-structopt = "0.3.21"
-itertools = "0.9.0"
-ndarray = "0.14.0"
-rayon = "1.5.0"
+common = { path = "../common" }
