@@ -56,7 +56,7 @@ impl SeatSimulator {
             let (xs, ys) = SeatSimulator::get_adjacency_shape(xmax, ymax, x, y);
             let view = last.slice(arr::s![xs, ys]);
             SeatSimulator::update_state(n, view);
-        };
+        }
     }
     fn simulate(initial_state: arr::Array2<State>) -> SeatSimulator {
         let mut state = SeatSimulator { state: initial_state };

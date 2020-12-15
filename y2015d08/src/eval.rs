@@ -23,7 +23,6 @@ pub fn parse(input: &str) -> IResult<&str, ParsedInput> {
     Ok(parsed(input)?)
 }
 
-
 impl Record {
     fn len(&self) -> usize {
         self.source.len() + 2 // 2 for the quotes
@@ -32,25 +31,27 @@ impl Record {
         fn unescaped_len(bstr: &[u8]) -> usize {
             if bstr.is_empty() {
                 0
-            } else {
-                if bstr[0] == b'\\' {
-                    match bstr[1] {
-                        b'\\' | b'\"' => 1 + unescaped_len(&bstr[2..]),
-                        b'x' => 1 + unescaped_len(&bstr[4..]),
-                        _ => panic!()
-                    }
-                } else {
-                    1 + unescaped_len(&bstr[1..])
+            } else if bstr[0] == b'\\' {
+                match bstr[1] {
+                    b'\\' | b'\"' => 1 + unescaped_len(&bstr[2..]),
+                    b'x' => 1 + unescaped_len(&bstr[4..]),
+                    _ => panic!(),
                 }
+            } else {
+                1 + unescaped_len(&bstr[1..])
             }
         }
         unescaped_len(self.source.as_bytes())
     }
     fn len_escaped(&self) -> usize {
-        self.source.chars().map(|c| match c {
-            '\\' | '\"' => 2,
-            _ => 1,
-        }).sum::<usize>() + 6 // 6 for the "\"\""
+        self.source
+            .chars()
+            .map(|c| match c {
+                '\\' | '\"' => 2,
+                _ => 1,
+            })
+            .sum::<usize>()
+            + 6 // 6 for the "\"\""
     }
 }
 
