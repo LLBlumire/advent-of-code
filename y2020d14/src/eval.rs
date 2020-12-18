@@ -105,16 +105,6 @@ fn mask_floats(number: &[bool], set_mask: &[bool]) -> Vec<Vec<bool>> {
         .collect()
 }
 
-#[test]
-fn test_gen_masks() {
-    let mask = mask_from_number(33);
-    for seed in 0..4 {
-        let mask = gen_mask_float(seed, &mask);
-        let one_mask: Vec<bool> = mask.iter().map(|(a, _)| *a).collect();
-        let zero_mask: Vec<bool> = mask.iter().map(|(_, a)| *a).collect();
-    }
-}
-
 #[derive(Debug)]
 pub struct Sim2 {
     memory: BTreeMap<u64, u64>,
