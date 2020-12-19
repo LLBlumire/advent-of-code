@@ -1,3 +1,5 @@
+#![feature(box_patterns, box_syntax)]
+
 pub use common::*;
 
 mod eval;
