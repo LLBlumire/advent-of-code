@@ -255,9 +255,8 @@ pub fn compute(input: ParsedInput) -> Result<Output> {
         task1: multiply_corners(solved.placed_ids()),
         task2: solved
             .get_picture()
-            .map(|n| (n.count_monsters(), n.count_rough()))
-            .filter(|&(m, _)| m != 0)
-            .map(|(m, r)| r - m * monster().count_rough())
-            .sum(),
+            .map(|n| n.count_rough() - n.count_monsters() * monster().count_rough())
+            .min()
+            .unwrap(),
     })
 }
