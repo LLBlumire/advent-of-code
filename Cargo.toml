@@ -1,0 +1,140 @@
+[[bin]]
+name = 'util'
+path = 'src/util.rs'
+
+[[bin]]
+name = 'y2015d01'
+path = 'src/y2015d01.rs'
+
+[[bin]]
+name = 'y2015d02'
+path = 'src/y2015d02.rs'
+
+[[bin]]
+name = 'y2015d03'
+path = 'src/y2015d03.rs'
+
+[[bin]]
+name = 'y2015d04'
+path = 'src/y2015d04.rs'
+
+[[bin]]
+name = 'y2015d05'
+path = 'src/y2015d05.rs'
+
+[[bin]]
+name = 'y2015d06'
+path = 'src/y2015d06.rs'
+
+[[bin]]
+name = 'y2015d07'
+path = 'src/y2015d07.rs'
+
+[[bin]]
+name = 'y2015d08'
+path = 'src/y2015d08.rs'
+
+[[bin]]
+name = 'y2015d09'
+path = 'src/y2015d09.rs'
+
+[[bin]]
+name = 'y2015d10'
+path = 'src/y2015d10.rs'
+
+[[bin]]
+name = 'y2015d11'
+path = 'src/y2015d11.rs'
+
+[[bin]]
+name = 'y2015d12'
+path = 'src/y2015d12.rs'
+
+[[bin]]
+name = 'y2015d13'
+path = 'src/y2015d13.rs'
+
+[[bin]]
+name = 'y2020d01'
+path = 'src/y2020d01.rs'
+
+[[bin]]
+name = 'y2020d02'
+path = 'src/y2020d02.rs'
+
+[[bin]]
+name = 'y2020d03'
+path = 'src/y2020d03.rs'
+
+[[bin]]
+name = 'y2020d04'
+path = 'src/y2020d04.rs'
+
+[[bin]]
+name = 'y2020d05'
+path = 'src/y2020d05.rs'
+
+[[bin]]
+name = 'y2020d06'
+path = 'src/y2020d06.rs'
+
+[[bin]]
+name = 'y2020d07'
+path = 'src/y2020d07.rs'
+
+[[bin]]
+name = 'y2017d01'
+path = 'src/y2017d01.rs'
+
+[[bin]]
+name = 'y2020d08'
+path = 'src/y2020d08.rs'
+
+[[bin]]
+name = 'y2020d09'
+path = 'src/y2020d09.rs'
+
+[[bin]]
+name = 'y2020d10'
+path = 'src/y2020d10.rs'
+
+[[bin]]
+name = 'y2021d01'
+path = 'src/y2021d01.rs'
+
+[dependencies]
+chrono = '0.4.0'
+hyper-tls = '0.5.0'
+itertools = '0.10.0'
+md5 = '0.7.0'
+ndarray = '0.15.0'
+nom = '7.0.0'
+serde_json = '1.0.0'
+structopt = '0.3.0'
+toml = '0.5.0'
+
+[dependencies.hyper]
+features = [
+    'client',
+    'http1',
+    'tcp',
+]
+version = '*'
+
+[dependencies.serde]
+features = ['derive']
+version = '*'
+
+[dependencies.tokio]
+features = [
+    'rt',
+    'rt-multi-thread',
+    'macros',
+]
+version = '*'
+
+[package]
+authors = ['Lucille L. Blumire']
+edition = '2021'
+name = 'aoc'
+version = '0.2.0'
