@@ -102,6 +102,10 @@ path = 'src/y2020d10.rs'
 name = 'y2021d01'
 path = 'src/y2021d01.rs'
 
+[[bin]]
+name = 'y2021d02'
+path = 'src/y2021d02.rs'
+
 [dependencies]
 chrono = '0.4.0'
 hyper-tls = '0.5.0'
