@@ -64,7 +64,6 @@ fn task2(input: &ParsedInput) -> Result<i32> {
                 InstructionKind::Up => (forward, depth, aim - item.magnitude),
                 InstructionKind::Down => (forward, depth, aim + item.magnitude),
             });
-
     Ok(forward * depth)
 }
 
