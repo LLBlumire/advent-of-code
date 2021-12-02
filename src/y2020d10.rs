@@ -70,11 +70,11 @@ fn get_num_combinations<'a>(chain: &'a [i64], known: &mut HashMap<&'a [i64], i64
         .into_iter()
         .sum();
     known.insert(chain, sum);
-    return Ok(sum);
+    Ok(sum)
 }
 
 fn task2(input: &ParsedInput) -> Result<i64> {
-    Ok(get_num_combinations(&input.jolts, &mut HashMap::new())?)
+    get_num_combinations(&input.jolts, &mut HashMap::new())
 }
 
 #[test]

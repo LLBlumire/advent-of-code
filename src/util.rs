@@ -93,21 +93,21 @@ fn base_yd_path(year: i32, day: u32) -> String {
 }
 
 fn input_path(year: i32, day: u32) -> Result<PathBuf> {
-    let mut path = PathBuf::from_str(&CARGO_ROOT)?;
+    let mut path = PathBuf::from_str(CARGO_ROOT)?;
     path.push("inputs");
     path.push(format!("{}.txt", base_yd_path(year, day)));
     Ok(path)
 }
 
 fn bin_path(year: i32, day: u32) -> Result<PathBuf> {
-    let mut path = PathBuf::from_str(&CARGO_ROOT)?;
+    let mut path = PathBuf::from_str(CARGO_ROOT)?;
     path.push("src");
     path.push(format!("{}.rs", base_yd_path(year, day)));
     Ok(path)
 }
 
 fn add_cargo_bin(year: i32, day: u32) -> Result<()> {
-    let mut path = PathBuf::from_str(&CARGO_ROOT)?;
+    let mut path = PathBuf::from_str(CARGO_ROOT)?;
     path.push("Cargo.toml");
     let cargo_string = fs::read_to_string(&path)?;
     let mut cargo_config: toml::Value = toml::from_str(&cargo_string)?;
@@ -142,7 +142,7 @@ fn session() -> Result<String> {
     let Config {
         config: ConfigInner { session },
     } = toml::from_str::<Config>(&fs::read_to_string({
-        let mut path = PathBuf::from_str(&CARGO_ROOT)?;
+        let mut path = PathBuf::from_str(CARGO_ROOT)?;
         path.push("Advent.toml");
         path
     })?)?;
