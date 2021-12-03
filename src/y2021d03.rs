@@ -30,23 +30,15 @@ fn count_bits_at(input: &[u32], bit: u32) -> usize {
         .count()
 }
 
-fn find_gamma(input: &[u32], width: u32) -> u32 {
-    (0..width).rev().fold(0, |out, bit| {
-        if count_bits_at(input, bit) * 2 >= input.len() {
+fn task1(input: &ParsedInput) -> Result<u32> {
+    let gamma = (0..input.width).rev().fold(0, |out, bit| {
+        if count_bits_at(&input.data, bit) * 2 >= input.data.len() {
             (out | 1) << 1
         } else {
             out << 1
         }
-    }) >> 1
-}
-
-fn find_epsilon_from_gamma(gamma: u32, width: u32) -> u32 {
-    (!gamma) & (2_u32.pow(width) - 1)
-}
-
-fn task1(input: &ParsedInput) -> Result<u32> {
-    let gamma = find_gamma(&input.data, input.width);
-    let epsilon = find_epsilon_from_gamma(gamma, input.width);
+    }) >> 1;
+    let epsilon = !gamma & 2_u32.pow(input.width) - 1;
     Ok(gamma * epsilon)
 }
 
