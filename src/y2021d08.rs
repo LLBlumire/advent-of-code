@@ -1,7 +1,7 @@
 use std::collections::BTreeSet;
 
 use aoc::*;
-use itertools::Itertools;
+
 
 #[derive(Debug)]
 struct ParsedInput {
@@ -79,81 +79,65 @@ fn task1(input: &ParsedInput) -> Result<usize> {
         .count())
 }
 
-fn task2(input: &ParsedInput) -> Result<u32> {
-    let all_permutations = segments().into_iter().permutations(7).collect::<Vec<_>>();
+fn task2(input: &ParsedInput) -> Result<usize> {
+    // We know the following just from W.l
+    // 2 -> 1
+    // 3 -> 7
+    // 4 -> 4
+    // 7 -> 8
+    //
+    // W.l (WU7).l (WU4).l
+    //  5                  -> 2 3 5
+    //  5     3            -> 3
+    //  5     2       3    -> 5
+    //  5     2       2    -> 2
+    //  6                  -> 0 6 9
+    //  6             4    -> 9
+    //  6     3       3    -> 0
+    //  6     2       3    -> 6
     Ok(input
         .segments
         .iter()
         .filter_map(|segment| {
-            let permutation = all_permutations
-                .iter()
-                .find(|permutation| is_legal_permutation(permutation, &segment.full_cycle))?;
-
+            let (seven, four) = segment.full_cycle.iter().map(|n| (n, n.wires.len())).fold(
+                (None, None),
+                |(seven, four), (item, n)| match n {
+                    3 => (Some(item), four),
+                    4 => (seven, Some(item)),
+                    _ => (seven, four),
+                },
+            );
+            let seven = &seven?.wires;
+            let four = &four?.wires;
             Some(
                 segment
                     .output
                     .iter()
                     .rev()
-                    .scan(0, |p, segment| {
-                        *p += 1;
-                        Some(10_u32.pow(*p - 1) * decode(permutation, segment) as u32)
+                    .scan(0, |pow, item| {
+                        *pow += 1;
+                        Some(10_usize.pow(*pow - 1)
+                            * match (
+                                item.wires.len(),
+                                seven.intersection(&item.wires).count(),
+                                four.intersection(&item.wires).count(),
+                            ) {
+                                (2, _, _) => 1,
+                                (3, _, _) => 7,
+                                (4, _, _) => 4,
+                                (7, _, _) => 8,
+                                (5, 3, _) => 3,
+                                (5, _, 3) => 5,
+                                (5, _, _) => 2,
+                                (6, _, 4) => 9,
+                                (6, 3, _) => 0,
+                                _ => 6
+                            })
                     })
-                    .sum::<u32>(),
+                    .sum::<usize>(),
             )
         })
         .sum())
-}
-
-fn segments() -> Vec<SegmentWire> {
-    use SegmentWire::*;
-    vec![A, B, C, D, E, F, G]
-}
-
-fn nummap() -> Vec<BTreeSet<SegmentWire>> {
-    use SegmentWire::*;
-    vec![
-        BTreeSet::from_iter(vec![A, B, C, E, F, G]),
-        BTreeSet::from_iter(vec![C, F]),
-        BTreeSet::from_iter(vec![A, C, D, E, G]),
-        BTreeSet::from_iter(vec![A, C, D, F, G]),
-        BTreeSet::from_iter(vec![B, C, D, F]),
-        BTreeSet::from_iter(vec![A, B, D, F, G]),
-        BTreeSet::from_iter(vec![A, B, D, E, F, G]),
-        BTreeSet::from_iter(vec![A, C, F]),
-        BTreeSet::from_iter(vec![A, B, C, D, E, F, G]),
-        BTreeSet::from_iter(vec![A, B, C, D, F, G]),
-    ]
-}
-
-fn is_legal_permutation(permutation: &[SegmentWire], test: &[SegmentInstruction]) -> bool {
-    let nums = BTreeSet::from_iter(nummap());
-    let permuted_test = test
-        .iter()
-        .map(|wire| permute_map(permutation, &wire.wires))
-        .collect::<BTreeSet<_>>();
-    nums == permuted_test
-}
-
-fn permute_map(
-    permutation: &[SegmentWire],
-    input: &BTreeSet<SegmentWire>,
-) -> BTreeSet<SegmentWire> {
-    let segments = segments();
-    input
-        .iter()
-        .copied()
-        .filter_map(|n| permutation.iter().find_position(|i| i == &&n))
-        .filter_map(|(n, _)| segments.get(n))
-        .copied()
-        .collect()
-}
-fn decode(permutation: &[SegmentWire], value: &SegmentInstruction) -> usize {
-    let decode_map = permute_map(permutation, &value.wires);
-    nummap()
-        .iter()
-        .find_position(|n| n == &&decode_map)
-        .unwrap()
-        .0
 }
 
 #[test]
