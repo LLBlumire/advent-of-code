@@ -28,19 +28,12 @@ pub struct SantaSimulator {
     presents: BTreeSet<(i64, i64)>,
 }
 impl SantaSimulator {
-    fn do_move(&mut self, &(dx, dy): &(i64, i64)) -> &mut Self {
-        self.position.0 += dx;
-        self.position.1 += dy;
-        self
-    }
-    fn do_gift(&mut self) -> &mut Self {
-        self.presents.insert(self.position);
-        self
-    }
     fn simulate<'a>(&mut self, directions: impl IntoIterator<Item = &'a (i64, i64)>) -> &mut Self {
-        self.do_gift();
-        for direction in directions {
-            self.do_move(direction).do_gift();
+        self.presents.insert(self.position);
+        for &(dx, dy) in directions {
+            self.position.0 += dx;
+            self.position.1 += dy;
+            self.presents.insert(self.position);
         }
         self
     }
