@@ -87,8 +87,7 @@ fn task2(input: &ParsedInput) -> Result<u32> {
         .filter_map(|segment| {
             let permutation = all_permutations
                 .iter()
-                .filter(|permutation| is_legal_permutation(permutation, &segment.full_cycle))
-                .next()?;
+                .find(|permutation| is_legal_permutation(permutation, &segment.full_cycle))?;
 
             Some(
                 segment
@@ -97,7 +96,7 @@ fn task2(input: &ParsedInput) -> Result<u32> {
                     .rev()
                     .scan(0, |p, segment| {
                         *p += 1;
-                        Some(10_u32.pow(*p - 1) * decode(&permutation, segment) as u32)
+                        Some(10_u32.pow(*p - 1) * decode(permutation, segment) as u32)
                     })
                     .sum::<u32>(),
             )
