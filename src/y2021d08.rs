@@ -2,7 +2,6 @@ use std::collections::BTreeSet;
 
 use aoc::*;
 
-
 #[derive(Debug)]
 struct ParsedInput {
     segments: Vec<SegmentDisplayInfo>,
@@ -116,23 +115,25 @@ fn task2(input: &ParsedInput) -> Result<usize> {
                     .rev()
                     .scan(0, |pow, item| {
                         *pow += 1;
-                        Some(10_usize.pow(*pow - 1)
-                            * match (
-                                item.wires.len(),
-                                seven.intersection(&item.wires).count(),
-                                four.intersection(&item.wires).count(),
-                            ) {
-                                (2, _, _) => 1,
-                                (3, _, _) => 7,
-                                (4, _, _) => 4,
-                                (7, _, _) => 8,
-                                (5, 3, _) => 3,
-                                (5, _, 3) => 5,
-                                (5, _, _) => 2,
-                                (6, _, 4) => 9,
-                                (6, 3, _) => 0,
-                                _ => 6
-                            })
+                        Some(
+                            10_usize.pow(*pow - 1)
+                                * match (
+                                    item.wires.len(),
+                                    seven.intersection(&item.wires).count(),
+                                    four.intersection(&item.wires).count(),
+                                ) {
+                                    (2, _, _) => 1,
+                                    (3, _, _) => 7,
+                                    (4, _, _) => 4,
+                                    (7, _, _) => 8,
+                                    (5, 3, _) => 3,
+                                    (5, _, 3) => 5,
+                                    (5, _, _) => 2,
+                                    (6, _, 4) => 9,
+                                    (6, 3, _) => 0,
+                                    _ => 6,
+                                },
+                        )
                     })
                     .sum::<usize>(),
             )
