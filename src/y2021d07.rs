@@ -45,7 +45,7 @@ fn task2(input: &ParsedInput) -> Result<i64> {
 #[test]
 fn test() {
     assert_task!(parse, task1, "16,1,2,0,4,2,7,1,2,14", 37);
-    assert_task!(parse, task2, "16,1,2,0,4,2,7,1,2,14", 206);
+    assert_task!(parse, task2, "16,1,2,0,4,2,7,1,2,14", 168);
 }
 
 aoc_main!(parse, task1, task2);
