@@ -78,9 +78,18 @@ fn dfssize(map: &mut ArrayViewMut2<'_, bool>, (cy, cx): (usize, usize), sum: &mu
 fn task2(input: &ParsedInput, task1: Task1Output) -> Result<usize> {
     let mut floodmap = input.map.map(|&n| n != 9);
     let mut floodmap = floodmap.view_mut();
-    Ok(task1.0.into_iter().map(|((cy, cx), _)| {
-        let mut out = 0;
-        dfssize(&mut floodmap, (cy,cx), &mut out); out}).sorted().rev().take(3).product())
+    Ok(task1
+        .0
+        .into_iter()
+        .map(|((cy, cx), _)| {
+            let mut out = 0;
+            dfssize(&mut floodmap, (cy, cx), &mut out);
+            out
+        })
+        .sorted()
+        .rev()
+        .take(3)
+        .product())
 }
 
 #[test]

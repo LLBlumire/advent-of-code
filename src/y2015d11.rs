@@ -87,9 +87,9 @@ fn task2(input: &ParsedInput) -> Result<String> {
 
 #[test]
 fn test() {
-    assert_eq!(check_password(&str_to_vec("hijklmn")), false);
-    assert_eq!(check_password(&str_to_vec("abbceffg")), false);
-    assert_eq!(check_password(&str_to_vec("abbcegjk")), false);
+    assert!(!check_password(&str_to_vec("hijklmn")));
+    assert!(!check_password(&str_to_vec("abbceffg")));
+    assert!(!check_password(&str_to_vec("abbcegjk")));
     assert_task!(parse, task1, "abcdefgh", "abcdffaa");
     assert_task!(parse, task1, "ghijklmn", "ghjaabcc");
 }
