@@ -112,17 +112,14 @@ fn task1(input: &ParsedInput) -> Result<usize> {
         .iter()
         .map(|line| {
             parens.clear();
-            match line
-                .iter()
-                .find(|bracket| {
-                    if bracket.side == Open {
-                        parens.push(**bracket);
-                        false
-                    } else {
-                        Some(bracket.kind) != parens.pop().map(|paren| paren.kind)
-                    }
-                })
-            {
+            match line.iter().find(|bracket| {
+                if bracket.side == Open {
+                    parens.push(**bracket);
+                    false
+                } else {
+                    Some(bracket.kind) != parens.pop().map(|paren| paren.kind)
+                }
+            }) {
                 None => 0,
                 Some(Bracket { kind: Paren, .. }) => 3,
                 Some(Bracket { kind: Square, .. }) => 57,
