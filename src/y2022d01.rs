@@ -1,58 +1,35 @@
 use aoc::*;
 use itertools::Itertools;
 
-#[derive(Debug)]
 struct ParsedInput {
-    elves: Vec<Elf>,
+    elves: Vec<Elf>
 }
 
-#[derive(Debug, Clone)]
 struct Elf {
     inventory: Vec<i32>,
 }
 
 impl Elf {
-    fn total_calories_carried(&self) -> i32 {
+    fn total_calories_carried(&self) -> i32 {       
         self.inventory.iter().sum()
     }
 }
 
 fn parse(input: &str) -> ParseResult<ParsedInput> {
-    use nom::{
-        character::complete::{i32 as number, line_ending},
-        combinator::map,
-        multi::separated_list1,
-        sequence::tuple,
-    };
-
-    let elf = map(separated_list1(line_ending, number), |inventory| Elf {
-        inventory,
-    });
-    let mut parser = map(
-        separated_list1(tuple((line_ending, line_ending)), elf),
-        |elves| ParsedInput { elves },
-    );
-
-    parser(input)
+    use nom::{character::complete::{i32 as number, line_ending}, combinator::map, multi::separated_list1, sequence::tuple};
+    
+    let elf = map(separated_list1(line_ending, number), |inventory| Elf { inventory });
+    let mut parser = map(separated_list1(tuple((line_ending, line_ending)), elf), |elves| ParsedInput { elves });
+    
+    parser(input)   
 }
 
 fn task1(input: &ParsedInput) -> Result<i32> {
-    Ok(input
-        .elves
-        .iter()
-        .map(Elf::total_calories_carried)
-        .max()
-        .unwrap())
+    Ok(input.elves.iter().map(Elf::total_calories_carried).max().unwrap())
 }
 
 fn task2(input: &ParsedInput) -> Result<i32> {
-    Ok(input
-        .elves
-        .iter()
-        .map(Elf::total_calories_carried)
-        .sorted_by(|a, b| b.cmp(a))
-        .take(3)
-        .sum())
+    Ok(input.elves.iter().map(Elf::total_calories_carried).sorted_by(|a, b| b.cmp(a)).take(3).sum())
 }
 
 #[test]
@@ -72,9 +49,8 @@ fn test() {
 9000
 
 10000
-    "
-    .trim();
-
+    ".trim();
+    
     assert_task!(parse, task1, test_input, 24000);
     assert_task!(parse, task2, test_input, 45000);
 }
