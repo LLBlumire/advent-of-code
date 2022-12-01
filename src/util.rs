@@ -158,18 +158,22 @@ fn cleanup_year(year: i32) -> i32 {
 }
 
 fn recent_aoc_date() -> (i32, u32) {
-    let mut date =
-        TimeZone::timestamp_nanos(&FixedOffset::west(18_000), Utc::now().timestamp_nanos())
-            .date()
-            .naive_local();
+    let mut date = TimeZone::timestamp_nanos(
+        &FixedOffset::west_opt(18_000).unwrap(),
+        Utc::now().timestamp_nanos(),
+    )
+    .date_naive();
+
     // it's not december yet
     if date.month() < 12 {
         date = date.with_year(date.year() - 1).unwrap();
     }
+
     // it's not advent of code days
     if date.day() > 25 {
         date = date.with_day(25).unwrap();
     }
+
     (date.year(), date.month())
 }
 

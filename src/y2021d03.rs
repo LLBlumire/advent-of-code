@@ -50,20 +50,20 @@ fn filter_bits(source: &[u32], bit: u32, matches: u32) -> Vec<u32> {
         .collect()
 }
 
-fn find_ratings(oxygen: &[u32], co2: &[u32], width: u32, bit: u32) -> Option<(u32, u32)> {
+fn find_ratings(oxygen: &[u32], co2: &[u32], bit: u32) -> Option<(u32, u32)> {
     if bit == 0 || (oxygen.len() == 1 && co2.len() == 1) {
         return Some((*oxygen.first()?, *co2.first()?));
     }
     let bit = bit - 1;
 
     let oxygen_bit_target = count_bits_at(oxygen, bit) * 2 >= oxygen.len();
-    let oxygen_bit_target = if oxygen_bit_target { 1 } else { 0 };
+    let oxygen_bit_target = u32::from(oxygen_bit_target);
     let next_oxygen = Some(())
         .filter(|_| oxygen.len() > 1)
         .map(|_| filter_bits(oxygen, bit, oxygen_bit_target));
 
     let co2_bit_target = count_bits_at(co2, bit) * 2 < co2.len();
-    let co2_bit_target = if co2_bit_target { 1 } else { 0 };
+    let co2_bit_target = u32::from(co2_bit_target);
     let next_co2 = Some(())
         .filter(|_| co2.len() > 1)
         .map(|_| filter_bits(co2, bit, co2_bit_target));
@@ -71,14 +71,13 @@ fn find_ratings(oxygen: &[u32], co2: &[u32], width: u32, bit: u32) -> Option<(u3
     find_ratings(
         next_oxygen.as_deref().unwrap_or(oxygen),
         next_co2.as_deref().unwrap_or(co2),
-        width,
         bit,
     )
 }
 
 fn task2(input: &ParsedInput) -> Result<u32> {
-    let (oxygen, co2) = find_ratings(&input.data, &input.data, input.width, input.width)
-        .ok_or("No ratings found")?;
+    let (oxygen, co2) =
+        find_ratings(&input.data, &input.data, input.width).ok_or("No ratings found")?;
     Ok(oxygen * co2)
 }
 

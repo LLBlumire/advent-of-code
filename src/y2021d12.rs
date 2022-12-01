@@ -48,16 +48,21 @@ impl<'a, 'b: 'a> FromIterator<&'b Connection<'a>> for Cavemap<'a> {
     }
 }
 
-fn count_paths<'a>(map: &Cavemap, position: &'a str, mut visited: HashSet<&'a str>, paths_found: &mut usize) {
+fn count_paths<'a>(
+    map: &Cavemap,
+    position: &'a str,
+    mut visited: HashSet<&'a str>,
+    paths_found: &mut usize,
+) {
     if position == "end" {
         *paths_found += 1;
-        return
+        return;
     }
     visited.insert(position);
     if let Some(candidates) = map.connections.get(position) {
         for candidate in candidates {
             if candidate.chars().all(|c| c.is_ascii_lowercase()) && visited.contains(candidate) {
-                continue
+                continue;
             }
             count_paths(map, candidate, visited.clone(), paths_found);
         }
@@ -71,19 +76,28 @@ fn task1(input: &ParsedInput) -> Result<usize> {
     Ok(count)
 }
 
-fn count_paths2<'a>(map: &Cavemap, position: &'a str, mut visited: HashSet<&'a str>, double_visit: bool, paths_found: &mut usize) {
+fn count_paths2<'a>(
+    map: &Cavemap,
+    position: &'a str,
+    mut visited: HashSet<&'a str>,
+    double_visit: bool,
+    paths_found: &mut usize,
+) {
     if position == "end" {
         *paths_found += 1;
-        return
+        return;
     }
     visited.insert(position);
     if let Some(candidates) = map.connections.get(position) {
         for candidate in candidates {
             match candidate {
                 &"start" => continue,
-                candidate if candidate.chars().all(|c| c.is_ascii_lowercase()) && visited.contains(candidate) => {
+                candidate
+                    if candidate.chars().all(|c| c.is_ascii_lowercase())
+                        && visited.contains(candidate) =>
+                {
                     if double_visit {
-                        continue
+                        continue;
                     } else {
                         count_paths2(map, candidate, visited.clone(), true, paths_found);
                     }
