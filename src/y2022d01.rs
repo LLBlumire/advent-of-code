@@ -24,7 +24,7 @@ fn parse(input: &str) -> ParseResult<ParsedInput> {
 
     let elf = separated_list1(line_ending, number).map(|inventory| Elf { inventory });
     let mut parser =
-        separated_list1(line_ending.and_then(line_ending), elf).map(|elves| ParsedInput { elves });
+        separated_list1(line_ending.and(line_ending), elf).map(|elves| ParsedInput { elves });
 
     parser.parse(input)
 }
