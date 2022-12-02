@@ -150,6 +150,10 @@ path = 'src/y2021d12.rs'
 name = 'y2022d01'
 path = 'src/y2022d01.rs'
 
+[[bin]]
+name = 'y2022d02'
+path = 'src/y2022d02.rs'
+
 [dependencies]
 chrono = '0.4.0'
 hyper-tls = '0.5.0'
@@ -160,9 +164,26 @@ nom = '7.0.0'
 serde_json = '1.0.0'
 structopt = '0.3.0'
 toml = '0.5.0'
-hyper = { version = '0.14.0', features = ['client', 'http1', 'tcp'] }
-serde = { version = '1.0.0', features = ['derive'] }
-tokio = { version = '1.0.0', features = ['rt', 'rt-multi-thread', 'macros'] }
+
+[dependencies.hyper]
+features = [
+    'client',
+    'http1',
+    'tcp',
+]
+version = '0.14.0'
+
+[dependencies.serde]
+features = ['derive']
+version = '1.0.0'
+
+[dependencies.tokio]
+features = [
+    'rt',
+    'rt-multi-thread',
+    'macros',
+]
+version = '1.0.0'
 
 [package]
 authors = ['Lucille L. Blumire']
