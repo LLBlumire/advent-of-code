@@ -52,11 +52,10 @@ fn task1(input: &ParsedInput) -> Result<i32> {
 }
 
 fn task2(input: &ParsedInput) -> Result<i32> {
-    
     Ok((&input.elves.iter().chunks(3))
         .into_iter()
         .map(|elves| {
-            let intersection =  elves
+            let intersection = elves
                 .map(|bag| {
                     bag.left
                         .chars()
@@ -65,10 +64,7 @@ fn task2(input: &ParsedInput) -> Result<i32> {
                 })
                 .reduce(|bag1, bag2| bag1.intersection(&bag2).copied().collect())
                 .unwrap();
-            let item = intersection
-                .iter()
-                .next()
-                .unwrap();
+            let item = intersection.iter().next().unwrap();
 
             item_to_priority(*item)
         })
